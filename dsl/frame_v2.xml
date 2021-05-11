@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema name="MAVLink" endian="little" version="2">
+    <fields>
+        <enum name="MsgId" type="uint8" semanticType="messageId">
+            <validValue name="Connect" val="1" />
+            <validValue name="Msg1" val="2" />
+        </enum>
+    </fields>
+
+    <interface name="Message">
+        <int name="Version" type="uint8" semanticType="version" />
+    </interface>
+
+    <frame name="Frame">
+        <sync name="Stx">
+            <int name="Stx" type="uint8" defaultValue="0xFD" validValue="0xFD" failOnInvalid="true" />
+        </sync>
+        <size name="Len">
+            <int name="Len" type="uint8" displayOffset="2" />
+        </size>
+        <id name="Id">
+            <bitfield name="IdBitField">
+                <int name="IdField" type="uint8" bitLength="24" />
+            </bitfield>
+        </id>
+        <payload name="Payload" />
+        <checksum name="Checksum" alg="crc-ccitt" from="Payload">
+            <int name="Checksum" type="uint16" />
+        </checksum>
+    </frame>
+</schema>
